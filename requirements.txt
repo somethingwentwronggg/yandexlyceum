@@ -1,0 +1,4 @@
+vk.py
+vk_api
+loguru
+PyQt5
