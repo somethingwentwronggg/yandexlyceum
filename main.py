@@ -297,8 +297,8 @@ class AuthForm(QWidget):
         vk.access_token = token
         api = vk.get_api()
         Thread(target=longpoll_thread, args=(token,)).start()
-        messages = Messages(self)
-        messages.show()
+        self.messages = Messages()
+        self.messages.show()
         self.close()
 
     def registerEvent(self):
