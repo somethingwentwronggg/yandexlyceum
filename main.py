@@ -17,6 +17,7 @@ from vk.types.community import Community
 from vk.types.responses.messages import GetConversationsItem
 from vk.types.user import User
 from vk_api.longpoll import VkLongPoll, VkEventType
+import login_resources
 
 # Пока ничего не придумал
 TITLE = "Мессенджер"
@@ -291,6 +292,7 @@ class AuthForm(QWidget):
 
     def tryAuthEvent(self):
         global api
+        logger.info("Авторизация")
         coro = auth(self.loginForm.text(), self.passwordForm.text())
         # Корутины надо запускать в отдельном потоке
         token = asyncio.run_coroutine_threadsafe(coro, loop).result()
@@ -316,6 +318,7 @@ class Messages(QWidget):
     """Основное окно сообщений"""
 
     def __init__(self):
+        logger.info("Загрузка диалогов")
         # Инициализация родителя
         super().__init__()
 
@@ -537,6 +540,7 @@ if __name__ == "__main__":
     accounts = db.get_accounts()
     api = vk.get_api()
     if len(accounts) >= 1:
+        logger.info("Найден аккаунт")
         access_token = accounts[0][1]
         vk.access_token = access_token
         coroutine = vk.api_request("users.get", params={})
